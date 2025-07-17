@@ -25,7 +25,7 @@ public class TaskController {
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
-    @GetMapping("/employee/{empId}") // ✅ Correct path
+    @GetMapping("/employee/{empId}")
     public List<Task> getTasksByEmployee(@PathVariable int empId) {
         return employeeService.getTasksByEmployeeId(empId);
     }

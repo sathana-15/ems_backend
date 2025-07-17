@@ -37,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
 
-            // Check token format (should have exactly 2 dots)
+
             if (token.chars().filter(ch -> ch == '.').count() == 2) {
                 try {
                     username = jwtTokenProvider.getUsernameFromToken(token);
