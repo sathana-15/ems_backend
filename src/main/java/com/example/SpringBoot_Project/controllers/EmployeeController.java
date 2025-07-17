@@ -5,7 +5,9 @@ import com.example.SpringBoot_Project.model.Task;
 import com.example.SpringBoot_Project.model.UserDetailsDto;
 import com.example.SpringBoot_Project.service.EmployeeService;
 import com.example.SpringBoot_Project.model.RegisterDetails;
+import com.example.SpringBoot_Project.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,10 @@ import java.util.List;
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
+
+    @Autowired
+    private TaskService taskService;
+
 
 
     @PreAuthorize("hasAnyRole('ADMIN','USER')")
@@ -66,6 +72,10 @@ public class EmployeeController {
     public List<Task> getTasksByEmployee(@PathVariable int empId) {
         return employeeService.getTasksByEmployeeId(empId);
     }
+
+
+
+
 
 
 

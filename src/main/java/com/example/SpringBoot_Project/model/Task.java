@@ -4,17 +4,16 @@ import lombok.Data;
 
 @Data
 @Entity
-//@AllArgsConstructor
-//@NoArgsConstructor
 public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int taskId;
+
     private String title;
 
-
-
+    @Column(name = "status") // ✅ ADD THIS
+    private String status;    // ✅ ADD THIS
 
     @ManyToOne
     @JoinColumn(name = "emp_id")
@@ -23,33 +22,11 @@ public class Task {
     public Task() {
     }
 
-
-    public Task(int i, String sathana, String trainner) {
-    }
-
-    public int getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(int taskId) {
+    public Task(int taskId, String title, String status) {
         this.taskId = taskId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
         this.title = title;
+        this.status = status;
     }
 
-    public RegisterDetails getAssignedEmployee() {
-        return assignedEmployee;
-    }
-
-    public void setAssignedEmployee(RegisterDetails assignedEmployee) {
-        this.assignedEmployee = assignedEmployee;
-    }
-
+    // Getters and setters (Lombok @Data already does this)
 }
-
