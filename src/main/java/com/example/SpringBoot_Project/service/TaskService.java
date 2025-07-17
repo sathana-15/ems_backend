@@ -17,11 +17,12 @@ public class TaskService {
     RegisterDetailsRepository registerDetailsRepository;
 
     public String assignTaskById(int empId, Task task) {
-        RegisterDetails user = registerDetailsRepository.findById(empId)
+        RegisterDetails employee = registerDetailsRepository.findById(empId)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
 
-        task.setAssignedEmployee(user);
+        task.setAssignedEmployee(employee);
         taskRepository.save(task);
-        return "Task assigned to employee ID: " + empId;
+        return "Task assigned successfully to employee ID " + empId;
     }
+
 }

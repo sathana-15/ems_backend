@@ -1,6 +1,7 @@
 package com.example.SpringBoot_Project.controllers;
 
 
+import com.example.SpringBoot_Project.model.Task;
 import com.example.SpringBoot_Project.model.UserDetailsDto;
 import com.example.SpringBoot_Project.service.EmployeeService;
 import com.example.SpringBoot_Project.model.RegisterDetails;
@@ -59,5 +60,13 @@ public class EmployeeController {
     public String deleteMethod(@PathVariable int empId){
         return employeeService.deleteEmployee(empId);
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @GetMapping("/employee/{empId}/tasks")
+    public List<Task> getTasksByEmployee(@PathVariable int empId) {
+        return employeeService.getTasksByEmployeeId(empId);
+    }
+
+
 
 }

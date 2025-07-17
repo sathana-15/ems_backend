@@ -17,34 +17,57 @@ import java.io.IOException;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    @Autowired
-    CustomerUserDetailsService userDetailsService;
 
     @Autowired
-    JwtTokenProvider jwtTokenProvider;
+    private CustomerUserDetailsService userDetailsService;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain) throws SecurityException,
-            IOException, ServletException {
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
+
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String username = null;
-        if (authHeader != null && authHeader.startsWith("Bearer ")){
-            token=authHeader.substring(7);
-            username=jwtTokenProvider.getUsernameFromToken(token);
+
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            token = authHeader.substring(7);
+
+            // Check token format (should have exactly 2 dots)
+            if (token.chars().filter(ch -> ch == '.').count() == 2) {
+                try {
+                    username = jwtTokenProvider.getUsernameFromToken(token);
+                } catch (Exception e) {
+                    System.out.println("❌ Failed to extract username from token: " + e.getMessage());
+                }
+            } else {
+                System.out.println("❌ Invalid token format: " + token);
+            }
+        } else {
+            System.out.println("⚠️ Authorization header is missing or doesn't start with 'Bearer '");
         }
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null){
+
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            if(jwtTokenProvider.vaildateToken(token)){
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(
-                                userDetails,null,userDetails.getAuthorities());
+
+            System.out.println("✅ Token: " + token);
+            System.out.println("✅ Username: " + username);
+            System.out.println("✅ Authorities: " + userDetails.getAuthorities());
+
+            if (jwtTokenProvider.vaildateToken(token)) {
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+            } else {
+                System.out.println("❌ Token validation failed.");
             }
         }
-        filterChain.doFilter(request,response);
+
+        filterChain.doFilter(request, response);
     }
 }

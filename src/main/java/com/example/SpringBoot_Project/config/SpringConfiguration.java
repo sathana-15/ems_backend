@@ -48,8 +48,11 @@ public class SpringConfiguration {
 //                            auth.requestMatchers(HttpMethod.PUT,"/employee").hasRole("ADMIN");
 //                            auth.requestMatchers(HttpMethod.DELETE,"/employee").hasRole("ADMIN");
 //                            auth.requestMatchers(HttpMethod.GET,"/**").hasAnyRole("ADMIN","USER");
+                    auth.requestMatchers(HttpMethod.GET, "/employee/**").hasAnyRole("ADMIN", "USER");
+                    auth.requestMatchers(HttpMethod.GET, "/task/employee/**").hasAnyRole("ADMIN", "USER");
                     auth.requestMatchers("/api/auth/**").permitAll();
                     auth.anyRequest().authenticated();
+
                 })
                 .addFilterBefore(jwtAuthenticationFilter , UsernamePasswordAuthenticationFilter.class);
         return http.build();
@@ -79,7 +82,7 @@ public class SpringConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource(){
        CorsConfiguration config = new CorsConfiguration();
-       config.setAllowedOriginPatterns(List.of("http://localhost:5173"));
+       config.setAllowedOriginPatterns(List.of("http://localhost:5175","http://localhost:3000"));
        config.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
        config.setAllowedHeaders(List.of("*"));
        config.setAllowCredentials(true);

@@ -11,12 +11,18 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int taskId;
-
     private String title;
+
+
+
 
     @ManyToOne
     @JoinColumn(name = "emp_id")
     private RegisterDetails assignedEmployee;
+
+    public Task() {
+    }
+
 
     public Task(int i, String sathana, String trainner) {
     }

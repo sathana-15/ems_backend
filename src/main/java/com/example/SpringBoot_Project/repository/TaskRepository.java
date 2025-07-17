@@ -1,7 +1,10 @@
 package com.example.SpringBoot_Project.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.SpringBoot_Project.model.Task;
-public interface TaskRepository extends JpaRepository<Task,Integer> {
+import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
+public interface TaskRepository extends JpaRepository<Task, Integer> {
+    List<Task> findByAssignedEmployeeEmpId(int empId);  // ✅ correct property path
 }
