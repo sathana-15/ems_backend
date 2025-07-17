@@ -63,7 +63,7 @@ public class EmployeeService {
 
         user.setName(details.getName());
         user.setEmail(details.getEmail());
-        user.setPassword(passwordEncoder.encode(details.getPassword())); // FIXED
+        user.setPassword(passwordEncoder.encode(details.getPassword()));
         user.setUserName(details.getUserName());
 
 
@@ -89,11 +89,11 @@ public class EmployeeService {
 
         RegisterDetails user = optionalUser.get();
 
-        // Step 1: Clear roles (removes associations from join table)
-        user.getRoles().clear();
-        registerDetailsRepository.save(user);  // Persist the cleared roles
 
-        // Step 2: Now safely delete the user
+        user.getRoles().clear();
+        registerDetailsRepository.save(user);
+
+
         registerDetailsRepository.deleteById(empId);
 
         return "Employee deleted successfully";
@@ -104,7 +104,7 @@ public class EmployeeService {
     private TaskRepository taskRepository;
 
     public List<Task> getTasksByEmployeeId(int empId) {
-        return taskRepository.findByAssignedEmployeeEmpId(empId); // ✅ now works
+        return taskRepository.findByAssignedEmployeeEmpId(empId);
     }
 
 

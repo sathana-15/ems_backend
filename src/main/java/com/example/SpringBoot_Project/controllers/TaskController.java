@@ -16,7 +16,7 @@ public class TaskController {
     TaskService t;
 
     @Autowired
-    EmployeeService employeeService;  // ✅ Use this instead of local 'taskService'
+    EmployeeService employeeService;
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/id/{empId}")
@@ -24,7 +24,7 @@ public class TaskController {
         return t.assignTaskById(empId, task);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','USER')") // ✅ Add authorization check here
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     @GetMapping("/employee/{empId}") // ✅ Correct path
     public List<Task> getTasksByEmployee(@PathVariable int empId) {
         return employeeService.getTasksByEmployeeId(empId);
