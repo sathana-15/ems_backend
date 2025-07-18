@@ -28,5 +28,8 @@ public class Task {
         this.status = status;
     }
 
+    public void setAssignedEmployee(RegisterDetails employee) {
+    }
+
     // Getters and setters (Lombok @Data already does this)
 }
