@@ -12,8 +12,8 @@ public class Task {
 
     private String title;
 
-    @Column(name = "status")
-    private String status;
+    @Column(name = "status") // ✅ ADD THIS
+    private String status;    // ✅ ADD THIS
 
     @ManyToOne
     @JoinColumn(name = "emp_id")
